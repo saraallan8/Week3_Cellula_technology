@@ -33,6 +33,7 @@ You are a helpful assistant answering questions about Sara Allan.
 Answer the question using only the information provided in the context.
 If the answer is not available in the context, say you don't know.
 
+Always identify the source of the information used in your answer.
 Keep the answer clear and concise.
 
 ## Context:
@@ -51,7 +52,8 @@ similar_docs = vectorDB.similarity_search_with_score(query, k=4)
 context = []
 
 for i in similar_docs:
-    context.append(i[0].page_content)
+    source = i[0].metadata.get("source", "Unknown source")
+    context.append(f"Source: {source}\n{i[0].page_content}")
 
 context = "\n\n".join(context)
 
